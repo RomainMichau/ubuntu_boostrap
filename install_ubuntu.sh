@@ -22,6 +22,7 @@ install_with_apt() {
 
 sudo apt update -y
 install_with_apt git
+sudo apt install cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 
 # Clone .conf files
 if [ ! -d "$HOME/.rcfg" ]; then
@@ -34,27 +35,35 @@ if [ ! -d "$HOME/.rcfg" ]; then
 fi
 # END
 
+CURRENT_SHELL=$(getent passwd "$USER" | awk -F: '{print $7}')
 
-
-# ZSH
-install_with_apt fzf
-install_with_apt zsh
-chsh -s /bin/zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Check if the shell is NOT zsh
+if [[ "$CURRENT_SHELL" != "/bin/zsh" ]]; then
+    install_with_apt fzf
+    install_with_apt zsh
+    chsh -s /bin/zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    source $HOME/.cargo/env
+fi
 # END
 
+if ! command -v cargo &> /dev/null; then
+    curl https://sh.rustup.rs -sSf | sh
+fi
 install_with_snap slack
 install_with_snap zoom-client
 install_with_snap spotify
+install_with_snap helix
 
 install_with_apt blueman
 install_with_apt wget
 install_with_apt curl
 install_with_apt gpg
+install_with_apt neofetch
 install_with_apt vim
 
-sudo add-apt-repository -y ppa:maveonair/helix-editor
-install_with_apt helix
+cargo install alacritty
+
 
 # TOIL FOR VS CODE
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
