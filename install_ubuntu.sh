@@ -22,7 +22,31 @@ install_with_apt() {
 
 sudo apt update -y
 install_with_apt git
+install_with_apt unzip
+install_with_apt libfuse2
+install_with_apt wget
 sudo apt install cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+
+if ! fc-list | grep 'Font Awesome 6'; then
+
+# Install awesome fonts
+    URL="https://use.fontawesome.com/releases/v6.7.0/fontawesome-free-6.7.0-desktop.zip"
+    DEST_FILE="fontawesome-free-6.7.0-desktop.zip"
+
+    # Download the ZIP file
+    wget -O "$DEST_FILE" "$URL"
+
+    # Unzip the file
+    unzip "$DEST_FILE" -d "fontawesome-free-6.7.0-desktop"
+
+    # Optionally, remove the ZIP file after extracting
+    rm "$DEST_FILE"
+    mkdir -p $HOME/.fonts 
+    mv ./fontawesome-free-6.7.0-desktop/fontawesome-free-6.7.0-desktop/otfs/* $HOME/.fonts
+    rm -rf fontawesome-free-6.7.0-desktop
+fi
+# END
+
 
 # Clone .conf files
 if [ ! -d "$HOME/.rcfg" ]; then
@@ -46,6 +70,12 @@ if [[ "$CURRENT_SHELL" != "/bin/zsh" ]]; then
     source $HOME/.cargo/env
 fi
 # END
+
+if ! command -v ghcup &> /dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+fi
+
+
 
 if ! command -v cargo &> /dev/null; then
     curl https://sh.rustup.rs -sSf | sh
@@ -85,4 +115,21 @@ install_with_apt i3-wm
 install_with_apt rofi
 install_with_apt polybar
 install_with_apt xscreensaver
+# END
+
+# Install docker
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # END
