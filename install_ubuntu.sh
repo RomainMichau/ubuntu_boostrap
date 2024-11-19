@@ -26,6 +26,7 @@ install_with_apt unzip
 install_with_apt libfuse2
 install_with_apt wget
 sudo apt install cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+$ sudo apt install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 
 
 if ! fc-list | grep 'Font Awesome 6'; then
 
