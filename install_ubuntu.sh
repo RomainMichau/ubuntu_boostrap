@@ -26,6 +26,7 @@ install_with_apt unzip
 install_with_apt libfuse2
 install_with_apt wget
 sudo apt install cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+$ sudo apt install -y build-essential curl libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5 
 
 if ! fc-list | grep 'Font Awesome 6'; then
 
@@ -74,7 +75,6 @@ fi
 if ! command -v ghcup &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 fi
-
 
 
 if ! command -v cargo &> /dev/null; then
@@ -133,3 +133,6 @@ sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # END
+
+cabal install --lib base xmonad xmonad-contrib
+cabal install base xmonad xmonad-contrib
