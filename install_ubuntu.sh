@@ -133,6 +133,6 @@ sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # END
-
+sudo apt-get install sudo apt-get install  libpango1.0-dev libcairo2-dev libglib2.0-dev libasound2-de g++ gcc libc6-dev libffi-dev libgmp-dev make xz-utils zlib1g-dev git gnupg netbase
 cabal install --lib base xmonad xmonad-contrib
 cabal install base xmonad xmonad-contrib
